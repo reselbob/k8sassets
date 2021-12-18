@@ -1,0 +1,13 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: biz-app
+  name: company-two-sre-rolebinding
+subjects:
+  - kind: User
+    name: company-two-sre-nancy #name is case sensitive
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: company-one-sre
+  apiGroup: rbac.authorization.k8s.io
