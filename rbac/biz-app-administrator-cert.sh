@@ -5,7 +5,7 @@ NAMESPACE=biz-app
 USERNAME=biz-app-administrator
 GROUPNAME=admins
 
-openssl genrsa -out ${USERNAME}.key 2048
+openssl genrsa -out $USERNAME.key 2048
 
 CSR_FILE=$USERNAME.csr
 KEY_FILE=$USERNAME.key
