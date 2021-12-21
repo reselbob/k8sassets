@@ -34,7 +34,7 @@ kubectl certificate approve $CERTIFICATE_NAME
 
 CRT_FILE=$USERNAME.crt
 
-kubectl get csr $CERTIFICATE_NAME -o jsonpath='{.status.certificate}'  | base64 -D > $CRT_FILE
+kubectl get csr $CERTIFICATE_NAME -o jsonpath='{.status.certificate}'  | base64 --decode > $CRT_FILE
 
 cat <<EOF | kubectl create -f -
 kind: Role
