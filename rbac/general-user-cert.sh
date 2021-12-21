@@ -15,7 +15,7 @@ openssl req -new -key $KEY_FILE -out $CSR_FILE -subj "/CN=$USERNAME/O=$GROUPNAME
 CERTIFICATE_NAME=$USERNAME.$NAMESPACE
 
 cat <<EOF | kubectl create -f -
-apiVersion: certificates.k8s.io/v1beta1
+apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
 metadata:
   name: $CERTIFICATE_NAME 
@@ -37,7 +37,7 @@ kubectl get csr $CERTIFICATE_NAME -o jsonpath='{.status.certificate}'  | base64 
 
 cat <<EOF | kubectl create -f -
 kind: Role
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   namespace: $NAMESPACE
   name: deployment-manager
@@ -50,7 +50,7 @@ EOF
 
 cat <<EOF | kubectl create -f -
 kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: $USERNAME-deployment-manager-binding
   namespace: $NAMESPACE
