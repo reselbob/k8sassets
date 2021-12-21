@@ -5,6 +5,8 @@ NAMESPACE=biz-app
 USERNAME=biz-app-administrator
 GROUPNAME=admins
 
+kubectl create ns $NAMESPACE
+
 openssl genrsa -out $USERNAME.key 2048
 
 CSR_FILE=$USERNAME.csr
