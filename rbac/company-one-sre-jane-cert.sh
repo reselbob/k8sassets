@@ -2,7 +2,7 @@
 
 CLUSTERNAME=default
 NAMESPACE=company-one
-USERNAME=company-one-site-engineer
+USERNAME=company-company-one-sre-jane
 GROUPNAME=sres
 
 openssl genrsa -out $USERNAME.key 2048
