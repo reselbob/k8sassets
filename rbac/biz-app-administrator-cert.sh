@@ -5,14 +5,11 @@ NAMESPACE=biz-app
 USERNAME=biz-app-administrator
 GROUPNAME=admins
 
-kubectl create ns $NAMESPACE
-
 openssl genrsa -out $USERNAME.key 2048
 
 CSR_FILE=$USERNAME.csr
 KEY_FILE=$USERNAME.key
 
-#openssl req -new -key biz-app-administrator.key -out biz-app-administrator.csr -subj "/CN=biz-app-administrator/O=admins"
 openssl req -new -key $KEY_FILE -out $CSR_FILE -subj "/CN=$USERNAME/O=$GROUPNAME"
 
 CERTIFICATE_NAME=$USERNAME.$NAMESPACE
@@ -38,35 +35,6 @@ kubectl certificate approve $CERTIFICATE_NAME
 CRT_FILE=$USERNAME.crt
 
 kubectl get csr $CERTIFICATE_NAME -o jsonpath='{.status.certificate}'  | base64 --decode > $CRT_FILE
-
-cat <<EOF | kubectl create -f -
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  namespace: $NAMESPACE
-  name: deployment-manager
-rules:
-- apiGroups: ["", "extensions", "apps"]
-  resources: ["deployments", "replicasets", "pods"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"] # You can also use ["*"]
-EOF
-
-
-cat <<EOF | kubectl create -f -
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: $USERNAME-deployment-manager-binding
-  namespace: $NAMESPACE
-subjects:
-- kind: User
-  name: $USERNAME
-  apiGroup: ""
-roleRef:
-  kind: Role
-  name: deployment-manager
-  apiGroup: ""
-EOF
 
 kubectl config set-credentials $USERNAME \
   --client-certificate=$(pwd)/$CRT_FILE \
