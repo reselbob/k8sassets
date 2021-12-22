@@ -12,7 +12,8 @@ openssl genrsa -out $USERNAME.key 2048
 CSR_FILE=$USERNAME.csr
 KEY_FILE=$USERNAME.key
 
-openssl req -new -key $KEY_FILE -out $CSR_FILE -subj "/CN=$USERNAME/O=$GROUPNAME"
+openssl req -new -key biz-app-administrator.key -out biz-app-administrator.csr -subj "/CN=biz-app-administrator/O=admins"
+#openssl req -new -key $KEY_FILE -out $CSR_FILE -subj "/CN=$USERNAME/O=$GROUPNAME"
 
 CERTIFICATE_NAME=$USERNAME.$NAMESPACE
 
