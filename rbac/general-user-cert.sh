@@ -20,7 +20,7 @@ kind: CertificateSigningRequest
 metadata:
   name: $CERTIFICATE_NAME 
 spec:
-  signerName: $USERNAME
+  signerName: kubernetes.io/kube-apiserver-client
   groups:
   - system:authenticated
   request: $(cat $CSR_FILE | base64 | tr -d '\n')
