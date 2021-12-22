@@ -23,7 +23,7 @@ kind: CertificateSigningRequest
 metadata:
   name: $CERTIFICATE_NAME 
 spec:
-  signerName: example.com/$USERNAME
+  signerName: kubernetes.io/$USERNAME
   groups:
   - system:authenticated
   request: $(cat $CSR_FILE | base64 | tr -d '\n')
