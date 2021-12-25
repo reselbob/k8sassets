@@ -14,6 +14,24 @@ openssl req -new -key $KEY_FILE -out $CSR_FILE -subj "/CN=$USERNAME/O=$GROUPNAME
 
 CERTIFICATE_NAME=$USERNAME.$NAMESPACE
 
+# Dump the CSR to file for education's sake
+cat >  $USERNAME-csr.yaml <<EOF
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: $CERTIFICATE_NAME 
+spec:
+  signerName: kubernetes.io/kube-apiserver-client
+  groups:
+  - system:authenticated
+  request: $(cat $CSR_FILE | base64 | tr -d '\n')
+  usages:
+  - digital signature
+  - key encipherment
+  - client auth
+EOF
+
+
 cat <<EOF | kubectl create -f -
 apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
