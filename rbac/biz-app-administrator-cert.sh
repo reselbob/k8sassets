@@ -31,7 +31,9 @@ spec:
   - client auth
 EOF
 
+kubectl apply -f $USERNAME-csr.yaml
 
+:'
 cat <<EOF | kubectl create -f -
 apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
@@ -47,7 +49,7 @@ spec:
   - key encipherment
   - client auth
 EOF
-
+'
 kubectl certificate approve $CERTIFICATE_NAME
 
 CRT_FILE=$USERNAME.crt
