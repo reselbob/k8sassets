@@ -33,23 +33,6 @@ EOF
 
 kubectl apply -f $USERNAME-csr.yaml
 
-:'
-cat <<EOF | kubectl create -f -
-apiVersion: certificates.k8s.io/v1
-kind: CertificateSigningRequest
-metadata:
-  name: $CERTIFICATE_NAME 
-spec:
-  signerName: kubernetes.io/kube-apiserver-client
-  groups:
-  - system:authenticated
-  request: $(cat $CSR_FILE | base64 | tr -d '\n')
-  usages:
-  - digital signature
-  - key encipherment
-  - client auth
-EOF
-'
 kubectl certificate approve $CERTIFICATE_NAME
 
 CRT_FILE=$USERNAME.crt
